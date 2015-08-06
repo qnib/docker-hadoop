@@ -1,0 +1,23 @@
+consul:
+    hostname: consul
+    image: qnib/consul
+    environment:
+    - DC_NAME=dc1
+    ports:
+    - "8500:8500"
+    dns: 127.0.0.1
+
+hadoop:
+    hostname: hadoop
+    dns: 127.0.0.1
+    image: qnib/hadoop
+    environment:
+    - DC_NAME=dc1
+    - FORWARD_TO_FILE=true
+    links:
+    - consul:consul
+    ports:
+    - 50060:50060
+    - 50070:50070
+    privileged: true
+

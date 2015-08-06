@@ -23,4 +23,5 @@ RUN ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa && \
 ADD ssh/config /home/hadoop/.ssh/config
 USER root
 ADD opt/qnib/hadoop/bin/ /opt/qnib/hadoop/bin/
-ADD etc/supervisord.d/hdfs.ini etc/supervisord.d/yarn.ini /etc/supervisord.d/
+ADD etc/supervisord.d/*.ini /etc/supervisord.d/
+ADD etc/consul.d/check_*.json /etc/consul.d/
