@@ -1,8 +1,7 @@
 ###### Docker Images
-FROM qnib/terminal
+FROM qnib/java7
 
-RUN yum install -y java-1.7.0-openjdk && \
-    useradd hadoop 
+RUN useradd hadoop 
 ENV HADOOP_VER=2.5.2
 RUN curl -fsL http://apache.claz.org/hadoop/common/hadoop-${HADOOP_VER}/hadoop-${HADOOP_VER}.tar.gz | tar xzf - -C /opt && mv /opt/hadoop-${HADOOP_VER} /opt/hadoop
 ADD opt/hadoop/etc/hadoop/* /opt/hadoop/etc/hadoop/
