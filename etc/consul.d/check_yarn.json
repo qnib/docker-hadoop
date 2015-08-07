@@ -8,11 +8,11 @@
         "checks": [
             {
                "script": "echo Check for 'nodemanager';ps -ef|grep -v grep|grep 'java -Dproc_nodemanager'",
-               "interval": "10s"
+               "interval": "3s"
             },
             {
                "script": "echo Check for 'resourcemanager';ps -ef|grep -v grep|grep 'java -Dproc_resourcemanager'",
-               "interval": "10s"
+               "interval": "3s"
             }
        ]
     }
