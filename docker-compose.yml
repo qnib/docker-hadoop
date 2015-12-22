@@ -1,14 +1,18 @@
 consul:
     hostname: consul
+    container_name: consul
     image: qnib/consul
     environment:
     - DC_NAME=dc1
+    - RUN_SERVER=true
+    - BOOTSTRAP_CONSUL=true
     ports:
     - "8500:8500"
     dns: 127.0.0.1
 
 hadoop:
     hostname: hadoop
+    container_name: hadoop
     dns: 127.0.0.1
     image: qnib/hadoop
     environment:
