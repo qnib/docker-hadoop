@@ -19,6 +19,9 @@ hadoop1:
     container_name: hadoop1
     environment:
      - HADOOP_HDFS_NAMENODE=true
+     - HADOOP_YARN_RESOURCEMANAGER=true
+    ports:
+     - 8088:8088
     links:
      - consul:consul
 

@@ -1,0 +1,16 @@
+{
+  "services": [
+    {
+        "id": "yarn-nodemanager",
+        "name": "yarn-nodemanager",
+        "tags": [ ],
+        "port": 8042,
+        "checks": [
+            {
+               "script": "echo Check for open port '8042'; nmap localhost -p 8042|grep open",
+               "interval": "3s"
+            }
+       ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "services": [
+    {
+        "id": "yarn-resourcemanager",
+        "name": "yarn-resourcemanager",
+        "tags": [ ],
+        "port": 8033,
+        "checks": [
+            {
+               "script": "echo Check for open port '8033'; nmap localhost -p 8033|grep open",
+               "interval": "3s"
+            }
+       ]
+    }
+  ]
+}
