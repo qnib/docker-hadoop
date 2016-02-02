@@ -10,19 +10,39 @@ consul:
     - "8500:8500"
     dns: 127.0.0.1
 
-hadoop:
-    hostname: hadoop
-    container_name: hadoop
+hadoop1:
+    hostname: hadoop1
+    container_name: hadoop1
     dns: 127.0.0.1
-    image: qnib/hadoop
+    image: qnib/hadoop:dev
     environment:
-    - DC_NAME=dc1
-    - FORWARD_TO_FILE=true
+     - DC_NAME=dc1
+     - FORWARD_TO_FILE=true
+     - COLLECT_METRICS=false
+     - SUPERVISOR_SKIP_SRV=yarn,watchpsutil
+     - HADOOP_HDFS_NAMENODE=true
     links:
-    - consul:consul
+     - consul:consul
     ports:
-    - 8042:8042
-    - 8088:8088
-    - 50070:50070
+     - 8042
+     - 8088
+     - 50070
     privileged: true
 
+hadoop2:
+    hostname: hadoop2
+    container_name: hadoop2
+    dns: 127.0.0.1
+    image: qnib/hadoop:dev
+    environment:
+     - DC_NAME=dc1
+     - FORWARD_TO_FILE=true
+     - COLLECT_METRICS=false
+     - SUPERVISOR_SKIP_SRV=yarn,watchpsutil
+    links:
+     - consul:consul
+    ports:
+     - 8042
+     - 8088
+     - 50070
+    privileged: true

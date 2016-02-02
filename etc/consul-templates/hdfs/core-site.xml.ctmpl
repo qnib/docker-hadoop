@@ -19,6 +19,6 @@
 <configuration>
   <property>
     <name>fs.default.name</name>
-      <value>hdfs://localhost:9000</value>
+      <value>hdfs://{{ env "HADOOP_HDFS_NAMENODE_URI" }}:{{ env "HADOOP_HDFS_NAMENODE_PORT" }}</value>
   </property>
 </configuration>
