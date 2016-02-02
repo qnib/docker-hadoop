@@ -6,7 +6,8 @@ ENV HADOOP_VER=2.5.2 \
     HADOOP_DFS_REPLICATION=1 \
     HADOOP_HDFS_NAMENODE=false \
     HADOOP_HDFS_NAMENODE_PORT=8020 \
-    HADOOP_HDFS_NAMENODE_URI=localhost
+    HADOOP_HDFS_NAMENODE_URI=localhost \
+    HADOOP_YARN_RESOURCEMANAGER=false
 RUN curl -fsL http://apache.claz.org/hadoop/common/hadoop-${HADOOP_VER}/hadoop-${HADOOP_VER}.tar.gz | tar xzf - -C /opt && mv /opt/hadoop-${HADOOP_VER} /opt/hadoop
 ADD opt/hadoop/etc/hadoop/* /opt/hadoop/etc/hadoop/
 ## Install SSH
@@ -29,12 +30,20 @@ ADD opt/qnib/hdfs/datanode/bin/start.sh /opt/qnib/hdfs/datanode/bin/
 ADD etc/supervisord.d/hdfs-datanode.ini \
     etc/supervisord.d/hdfs-namenode.ini \
     etc/supervisord.d/sshd.ini \
-    etc/supervisord.d/yarn.ini \
+    etc/supervisord.d/yarn-resourcemanager.ini \
+    etc/supervisord.d/yarn-nodemanager.ini \
     /etc/supervisord.d/
 ADD etc/consul.d/hdfs-namenode.json \
     etc/consul.d/hdfs-datanode.json \
     etc/consul.d/sshd.json \
+    etc/consul.d/yarn-resourcemanager.json \
+    etc/consul.d/yarn-nodemanager.json \
     /etc/consul.d/
 ADD etc/consul-templates/hdfs/hdfs-site.xml.ctmpl \
     etc/consul-templates/hdfs/core-site.xml.ctmpl \
     /etc/consul-templates/hdfs/
+ADD etc/consul-templates/yarn/yarn-site.xml.ctmpl /etc/consul-templates/yarn/
+ADD opt/qnib/yarn/resourcemanager/bin/start.sh /opt/qnib/yarn/resourcemanager/bin/
+ADD opt/qnib/yarn/nodemanager/bin/start.sh /opt/qnib/yarn/nodemanager/bin/
+
+RUN echo "su -c 'hadoop jar /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-client-jobclient-2.5.2-tests.jar TestDFSIO -write -nrFiles 64 -fileSize 16GB -resFile /tmp/TestDFSIOwrite.txt' hadoop" >> /root/.bash_history

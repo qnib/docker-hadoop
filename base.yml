@@ -12,9 +12,7 @@ hadoop:
       service: base
     image: qnib/hadoop
     environment:
-     - SUPERVISOR_SKIP_SRV=yarn,watchpsutil
+     - SUPERVISOR_SKIP_SRV=watchpsutil
     ports:
      - 8042
-     - 8088
-     - 50070
 
