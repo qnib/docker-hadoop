@@ -14,7 +14,7 @@ hadoop1:
     hostname: hadoop1
     container_name: hadoop1
     dns: 127.0.0.1
-    image: qnib/hadoop:dev
+    image: qnib/hadoop
     environment:
      - DC_NAME=dc1
      - FORWARD_TO_FILE=true
@@ -33,7 +33,25 @@ hadoop2:
     hostname: hadoop2
     container_name: hadoop2
     dns: 127.0.0.1
-    image: qnib/hadoop:dev
+    image: qnib/hadoop
+    environment:
+     - DC_NAME=dc1
+     - FORWARD_TO_FILE=true
+     - COLLECT_METRICS=false
+     - SUPERVISOR_SKIP_SRV=yarn,watchpsutil
+    links:
+     - consul:consul
+    ports:
+     - 8042
+     - 8088
+     - 50070
+    privileged: true
+
+hadoop2:
+    hostname: hadoop2
+    container_name: hadoop2
+    dns: 127.0.0.1
+    image: qnib/hadoop
     environment:
      - DC_NAME=dc1
      - FORWARD_TO_FILE=true
