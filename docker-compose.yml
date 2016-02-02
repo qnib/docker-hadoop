@@ -1,66 +1,41 @@
 consul:
+    extends:
+      file: base.yml
+      service: base
     hostname: consul
     container_name: consul
     image: qnib/consul
     environment:
-    - DC_NAME=dc1
     - RUN_SERVER=true
     - BOOTSTRAP_CONSUL=true
     ports:
     - "8500:8500"
-    dns: 127.0.0.1
 
 hadoop1:
+    extends:
+      file: base.yml
+      service: hadoop
     hostname: hadoop1
     container_name: hadoop1
-    dns: 127.0.0.1
-    image: qnib/hadoop
     environment:
-     - DC_NAME=dc1
-     - FORWARD_TO_FILE=true
-     - COLLECT_METRICS=false
-     - SUPERVISOR_SKIP_SRV=yarn,watchpsutil
      - HADOOP_HDFS_NAMENODE=true
     links:
      - consul:consul
-    ports:
-     - 8042
-     - 8088
-     - 50070
-    privileged: true
 
 hadoop2:
+    extends:
+      file: base.yml
+      service: hadoop
     hostname: hadoop2
     container_name: hadoop2
-    dns: 127.0.0.1
-    image: qnib/hadoop
-    environment:
-     - DC_NAME=dc1
-     - FORWARD_TO_FILE=true
-     - COLLECT_METRICS=false
-     - SUPERVISOR_SKIP_SRV=yarn,watchpsutil
     links:
      - consul:consul
-    ports:
-     - 8042
-     - 8088
-     - 50070
-    privileged: true
 
-hadoop2:
-    hostname: hadoop2
-    container_name: hadoop2
-    dns: 127.0.0.1
-    image: qnib/hadoop
-    environment:
-     - DC_NAME=dc1
-     - FORWARD_TO_FILE=true
-     - COLLECT_METRICS=false
-     - SUPERVISOR_SKIP_SRV=yarn,watchpsutil
+hadoop3:
+    extends:
+      file: base.yml
+      service: hadoop
+    hostname: hadoop3
+    container_name: hadoop3
     links:
      - consul:consul
-    ports:
-     - 8042
-     - 8088
-     - 50070
-    privileged: true
