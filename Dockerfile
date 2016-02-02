@@ -47,3 +47,4 @@ ADD opt/qnib/yarn/resourcemanager/bin/start.sh /opt/qnib/yarn/resourcemanager/bi
 ADD opt/qnib/yarn/nodemanager/bin/start.sh /opt/qnib/yarn/nodemanager/bin/
 
 RUN echo "su -c 'hadoop jar /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-client-jobclient-2.5.2-tests.jar TestDFSIO -write -nrFiles 64 -fileSize 16GB -resFile /tmp/TestDFSIOwrite.txt' hadoop" >> /root/.bash_history
+ENV HADOOP_YARN_RM_HOST=yarn-resourcemanager.service.consul

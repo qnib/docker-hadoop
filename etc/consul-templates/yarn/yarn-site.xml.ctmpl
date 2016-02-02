@@ -19,6 +19,6 @@
   </property>
   <property>
     <name>yarn.resourcemanager.hostname</name>
-    <value>yarn-resourcemanager.service.consul</value>
+    <value>{{ env "HADOOP_YARN_RM_HOST" }}</value>
   </property>
 </configuration>
