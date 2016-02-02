@@ -7,6 +7,8 @@ if [ "${HADOOP_YARN_RESOURCEMANAGER}" != "true" ];then
     consul reload
     sleep 2
     exit 0
+else
+    HADOOP_YARN_RM_HOST=0.0.0.0
 fi
 
 function stop_it {
@@ -19,6 +21,7 @@ wait_for_srv hdfs-namenode
 wait_for_srv hdfs-datanode
 
 
+consul-template -consul localhost:8500 -once -template "/etc/consul-templates/yarn/yarn-site.xml.ctmpl:/opt/hadoop/etc/hadoop/yarn-site.xml"
 su -c '/opt/hadoop/sbin/yarn-daemon.sh start resourcemanager' hadoop
 sleep 3
 
