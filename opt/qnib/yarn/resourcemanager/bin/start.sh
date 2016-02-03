@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source /etc/bashrc.hadoop
+source /opt/qnib/consul/etc/bash_functions.sh
 
 if [ "${HADOOP_YARN_RESOURCEMANAGER}" != "true" ];then
     rm -f /etc/consul.d/yarn-resourcemanager.json
@@ -20,9 +21,4 @@ trap stop_it TERM EXIT
 wait_for_srv hdfs-namenode
 wait_for_srv hdfs-datanode
 
-
-consul-template -consul localhost:8500 -once -template "/etc/consul-templates/yarn/yarn-site.xml.ctmpl:/opt/hadoop/etc/hadoop/yarn-site.xml"
-su -c '/opt/hadoop/sbin/yarn-daemon.sh start resourcemanager' hadoop
-sleep 3
-
-tail -f /opt/hadoop/logs/yarn-hadoop-resourcemanager-*
+su -c '/opt/hadoop/bin/yarn --config /opt/qnib/yarn/resourcemanager/etc/ resourcemanager' hadoop

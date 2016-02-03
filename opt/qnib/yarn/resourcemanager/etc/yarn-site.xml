@@ -23,6 +23,6 @@
   </property>
   <property>
     <name>yarn.resourcemanager.hostname</name>
-    <value>{{range $i, $e := service "yarn-resourcemanager" "any"}}{{if ne $i 0}},{{end}}{{$e.Node}}{{end}}</value>
+    <value>0.0.0.0</value>
   </property>
 </configuration>
