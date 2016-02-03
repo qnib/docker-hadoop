@@ -1,4 +1,5 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 <!--
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -12,17 +13,20 @@
   See the License for the specific language governing permissions and
   limitations under the License. See accompanying LICENSE file.
 -->
+
+<!-- Put site-specific property overrides in this file. -->
+
 <configuration>
   <property>
-    <name>yarn.nodemanager.aux-services</name>
-    <value>mapreduce_shuffle</value>
+    <name>dfs.replication</name>
+    <value>1</value>
   </property>
   <property>
-    <name>yarn.nodemanager.aux-services.mapreduce_shuffle.class</name>
-    <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+    <name>dfs.name.dir</name>
+    <value>file:///data/hadoopdata/hdfs/namenode</value>
   </property>
   <property>
-    <name>yarn.resourcemanager.hostname</name>
-    <value>{{range $i, $e := service "yarn-resourcemanager" "any"}}{{if ne $i 0}},{{end}}{{$e.Node}}{{end}}</value>
+    <name>dfs.data.dir</name>
+    <value>file:///data/hadoopdata/hdfs/datanode</value>
   </property>
 </configuration>

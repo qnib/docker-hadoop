@@ -3,7 +3,7 @@ consul:
       file: base.yml
       service: base
     hostname: consul
-    container_name: consul
+    container_name: hadoop-consul
     image: qnib/consul
     environment:
     - RUN_SERVER=true
