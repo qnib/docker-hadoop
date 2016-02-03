@@ -2,7 +2,7 @@
 FROM qnib/java7
 
 RUN useradd hadoop 
-ENV HADOOP_VER=2.5.2 \
+ENV HADOOP_VER=2.7.2 \
     HADOOP_DFS_REPLICATION=1 \
     HADOOP_HDFS_NAMENODE=false \
     HADOOP_HDFS_NAMENODE_PORT=8020 \
@@ -25,8 +25,10 @@ RUN ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa && \
     chmod 0600 ~/.ssh/authorized_keys
 ADD ssh/config /home/hadoop/.ssh/config
 USER root
-RUN echo "su -c 'hadoop jar /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-client-jobclient-2.5.2-tests.jar TestDFSIO -write -nrFiles 64 -fileSize 16GB -resFile /tmp/TestDFSIOwrite.txt' hadoop" >> /root/.bash_history && \
-    echo "" >> /root/.bash_history
+RUN echo "su -c 'hadoop jar /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-client-jobclient-${HADOOP_VER}-tests.jar TestDFSIO -write -nrFiles 64 -fileSize 16GB -resFile /tmp/TestDFSIOwrite.txt' hadoop" >> /root/.bash_history && \
+    echo "hadoop fs -ls /" >> /root/.bash_history && \
+    echo "su -c 'hadoop fs -mkdir /test' hadoop" >> /root/.bash_history && \
+    echo "su -c 'hadoop fs -copyFromLocal /etc/hosts /test/' hadoop" >> /root/.bash_history
 ADD opt/qnib/hdfs/namenode/bin/start.sh /opt/qnib/hdfs/namenode/bin/
 ADD opt/qnib/hdfs/datanode/bin/start.sh /opt/qnib/hdfs/datanode/bin/
 ADD etc/supervisord.d/hdfs-datanode.ini \
@@ -41,9 +43,12 @@ ADD etc/consul.d/hdfs-namenode.json \
     etc/consul.d/yarn-resourcemanager.json \
     etc/consul.d/yarn-nodemanager.json \
     /etc/consul.d/
-ADD etc/consul-templates/hdfs/hdfs-site.xml.ctmpl \
-    etc/consul-templates/hdfs/core-site.xml.ctmpl \
-    /etc/consul-templates/hdfs/
+ADD etc/consul-templates/hdfs/datanode/hdfs-site.xml.ctmpl \
+    etc/consul-templates/hdfs/datanode/core-site.xml.ctmpl \
+    /etc/consul-templates/hdfs/datanode/
+ADD etc/consul-templates/hdfs/namenode/hdfs-site.xml.ctmpl \
+    etc/consul-templates/hdfs/namenode/core-site.xml.ctmpl \
+    /etc/consul-templates/hdfs/namenode/
 ADD etc/consul-templates/yarn/yarn-site.xml.ctmpl /etc/consul-templates/yarn/
 ADD opt/qnib/yarn/resourcemanager/bin/start.sh /opt/qnib/yarn/resourcemanager/bin/
 ADD opt/qnib/yarn/resourcemanager/etc/capacity-scheduler.xml \
@@ -55,7 +60,10 @@ ADD opt/qnib/yarn/resourcemanager/etc/capacity-scheduler.xml \
     opt/qnib/yarn/resourcemanager/etc/yarn-env.sh \
     opt/qnib/yarn/resourcemanager/etc/yarn-site.xml \
     /opt/qnib/yarn/resourcemanager/etc/
-ADD opt/qnib/hdfs/etc/hadoop-env.sh \
-    opt/qnib/hdfs/etc/hdfs-site.xml \
-    /opt/qnib/hdfs/etc/
+ADD opt/qnib/hdfs/namenode/etc/hadoop-env.sh \
+    opt/qnib/hdfs/namenode/etc/hdfs-site.xml \
+    /opt/qnib/hdfs/namenode/etc/
+ADD opt/qnib/hdfs/datanode/etc/hadoop-env.sh \
+    opt/qnib/hdfs/datanode/etc/hdfs-site.xml \
+    /opt/qnib/hdfs/datanode/etc/
 

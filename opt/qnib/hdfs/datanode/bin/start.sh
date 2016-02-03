@@ -34,6 +34,6 @@ fi
 echo ">> NAMENODE=${HADOOP_HDFS_NAMENODE_URI}"
 
 consul-template -consul localhost:8500 -once -template "/etc/consul-templates/hdfs/hdfs-site.xml.ctmpl:/opt/hadoop/etc/hadoop/hdfs-site.xml"
-consul-template -consul localhost:8500 -once -template "/etc/consul-templates/hdfs/core-site.xml.ctmpl:/opt/hadoop/etc/hadoop/core-site.xml"
+consul-template -consul localhost:8500 -once -template "/etc/consul-templates/hdfs/datanode/core-site.xml.ctmpl:/opt/hadoop/etc/hadoop/core-site.xml"
 su -c "/opt/hadoop/bin/hdfs datanode -fs hdfs://${HADOOP_HDFS_NAMENODE_URI}/" hadoop
 

@@ -13,7 +13,7 @@ fi
 if [ ! -d /data/hadoopdata/hdfs/namenode ];then
     echo "Formating namenode"
     chown -R hadoop: /data/hadoopdata/hdfs
-    su -c '/opt/hadoop/bin/hdfs namenode -format' hadoop
+    su -c '/opt/hadoop/bin/hdfs --config /opt/qnib/hdfs/namenode/etc/ namenode -format -force' hadoop
 fi
 if [ ! -d /data/hadoopdata/logs ];then
     mkdir /data/hadoopdata/logs/
@@ -28,6 +28,6 @@ wait_for_srv ssh
 
 HADOOP_HDFS_NAMENODE_URI=0.0.0.0
 
-consul-template -consul localhost:8500 -once -template "/etc/consul-templates/hdfs/core-site.xml.ctmpl:/opt/qnib/hdfs/etc/core-site.xml"
-su -c '/opt/hadoop/bin/hdfs --config /opt/qnib/hdfs/etc/ namenode' hadoop
+consul-template -consul localhost:8500 -once -template "/etc/consul-templates/hdfs/namenode/core-site.xml.ctmpl:/opt/qnib/hdfs/namenode/etc/core-site.xml"
+su -c '/opt/hadoop/bin/hdfs --config /opt/qnib/hdfs/namenode/etc/ namenode' hadoop
 
