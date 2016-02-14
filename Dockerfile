@@ -1,5 +1,5 @@
 ###### Docker Images
-FROM qnib/java7
+FROM qnib/java8
 
 RUN useradd hadoop 
 ENV HADOOP_VER=2.7.2 \
